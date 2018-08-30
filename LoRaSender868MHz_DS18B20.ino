@@ -51,7 +51,7 @@ void loop() {
   Serial.print("Sending packet: ");
   Serial.println(counter);
   sensors.requestTemperatures();
-  //delay(750);
+  //delay(750); //Wensor gets time to collect data, not necessary if you are using SF12
   Serial.print(sensors.getTempCByIndex(0));
 
   // send packet
