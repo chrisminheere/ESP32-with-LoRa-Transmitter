@@ -1,6 +1,6 @@
 //*****************************************************************************************************************************//
 //Made By: Chris Minheere
-//30-08-2018
+//1-09-2018
 //Lora Transmitter 868Mhz, On ESP32.
 //Hardware: ESP32, DS18b20, SX1276 868MHz
 
@@ -42,7 +42,7 @@ void setup() {
   LoRa.setSpreadingFactor(12);            //Change the spreading factor of the radio.
   LoRa.setSignalBandwidth(125E3);         //Change the signal bandwidth of the radio.
   LoRa.setCodingRate4(4 / 5);             //Change the coding rate of the radio.
-  LoRa.setSyncWord(0x13);                 //Change the sync word of the radio.
+  LoRa.setSyncWord(0x11);                 //Change the sync word of the radio.
   //LoRa.disableCrc();                    //Enable or disable CRC usage, by default a CRC is not used.
   LoRa.setPreambleLength(8);              //Change the preamble length of the radio.
 }
@@ -51,16 +51,18 @@ void loop() {
   Serial.print("Sending packet: ");
   Serial.println(counter);
   sensors.requestTemperatures();
-  //delay(750); //Wensor gets time to collect data, not necessary if you are using SF12
+  //delay(750); //Sensor gets time to collect data, not necessary if you are using SF12
   Serial.print(sensors.getTempCByIndex(0));
 
   // send packet
   LoRa.beginPacket();
   LoRa.print(sensors.getTempCByIndex(0));
-  //LoRa.print(counter);
+  LoRa.print("        +");
+  LoRa.print(counter);
   LoRa.endPacket();
+  LoRa.idle();
 
-  //counter++;
+  counter++;
 
-  delay(500);
+  delay(20000);
 }
